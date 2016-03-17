@@ -21,7 +21,7 @@ class ManifestResource {
      * @param $format
      * @param $file_href
      */
-    public function __construct($identifier, $href, $type, $langstring, $format, $file_href)
+    public function __construct($identifier, $href, $type, $langstring, $file_href, $format = "text/x-imsqti-item-xml")
     {
         $this->identifier = $identifier;
         $this->href = $href;
