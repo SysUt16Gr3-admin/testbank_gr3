@@ -2,32 +2,23 @@
 
 class ManifestParser{
 
-	//holder objektet
+	
 	protected $xml_obj = null;
-
-	//holder output-arrayet
 	protected $output = array();
-
-	//XML-filen karakter
 	protected $char_set = 'UTF-8';
-
+	
 	function ManifestParser(){ }
-
-	//parse filen
+	
 	function parse($minFil){
 
 		$this->output = array();
-		
-		//lage en ny XML-parser
+				
 		$this->xml_obj = xml_parser_create($this->char_set);
-		
-		//bruke XML Parser innenfor et objekt
+				
 		xml_set_object($this->xml_obj,$this);
-		
-		//Sette opp karakter data handler for XML parser
+				
 		xml_set_character_data_handler($this->xml_obj, 'handler');
-		
-		//Sette opp start- og sluttelement. Ta med referanse til XML Parser
+				
 		xml_set_element_handler($this->xml_obj, "tagStart", "tagEnd");
 		
 		$fp = fopen($minFil, "r");
@@ -49,7 +40,6 @@ class ManifestParser{
 		return $this->output;
 	}
 	
-	//Metode handler en tag-start treffen av XML parser 
 	function tagStart($parser, $name, $attribs){
 		$_content = array('name' => $name);
 		if(!empty($attribs))
@@ -67,7 +57,6 @@ class ManifestParser{
 		}
 	}
 
-	//Metode handler en tag-slutt treffen av XML parser 
 	function tagEnd($parser, $name){
 		if(count($this->output) > 1) {
 			$_data = array_pop($this->output);
@@ -75,5 +64,4 @@ class ManifestParser{
 			$this->output[$_output_idx]['child'][] = $_data;
 		}
 	}
-
 }
