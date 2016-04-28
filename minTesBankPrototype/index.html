@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SysUtv16_Gr3</title>
+<link href="minStil.css" rel="stylesheet">
+</head>
+
+<body>
+	<header id="header">
+
+		<h1>Testbank Prototype</h1>
+		<p>
+			<span style="padding-left: 20px">Dette er en prøveversjon av
+				testBank.</span>
+		</p>
+		<span style="padding-left: 20px"><button id="btnHelp"
+				onclick="help()">Mer info</button></span>
+		<script>
+			function help() {
+				var vindu = window.open("", "MsgWindow", "widt=200, height=100");
+				vindu.document.write("<p>Spørsmål og svar blir eksportert fra itsLearnig i zip-format. Velg zip-filen. Trykk Send file for å se spørsmål og svar. Imsmanifest-filen blir parset. Trykk Vis filen for å se innhold.</p>");
+			}
+		</script>
+	</header>
+	<div id="hoved">
+		<br>
+		<form action="myFormatter.php" method="post"
+			enctype="multipart/form-data">
+			<span style="padding-left: 20px">Velg zip-fil; </span> <input
+				type="hidden" name="MAX_FILE_SIZE" value="30000"> <input
+				type="file" name="uploadFileTest" id="testfile"> <input
+				type="submit" name='send' value="Vis">
+		</form>
+		<br> <span style="padding-left: 20px; color: blue;"><b>Imsmanifest
+				fil:</b></span>
+		<form action="visManifest.php" method="post"
+			enctype="multipart/form-data">
+			<br /> <span style="padding-left: 20px">Imsmanifest-fil:</span> <input
+				type="submit" name='send' value="Vis fil">
+		</form>
+
+		<div>
+			<br>
+			<p></p>
+
+			<?php
+					$dir = getcwd().'/ZipFolder/';
+					$dh = opendir($dir);
+					while (false !== ($filename = readdir($dh))) {
+						$files[] = $filename;
+					}
+				?>
+			<form action="Export.php" method="post">
+				<span style="padding-left: 20px">Velg zip-fil for nedlasting:</span>
+				<select name="zipFiles">
+					<option value="selected">Velg fil</option>
+					<?php 
+	  					foreach($files as $file) { ?>
+					<option value="<?php echo $file; ?>"><?php echo $file; ?></option>
+					<?php } ?>
+				</select> <input type="submit" name="submito" value="Last ned">
+			</form>
+		
+		</div>
+
+		<div>
+			<br> <span style="padding-left: 20px; color: blue;"><b>Last
+					ned spørsmål</b></span>
+			<form action="ChooseSubject.php" method="post">
+				<br /> <span style="padding-left: 20px"><input type="submit"
+					value="Hent spørsmål"></span>
+			</form>
+
+		</div>
+
+		<div>
+			<br /> <br /> <span style="padding-left: 20px; color: blue;"><b>Redigering
+					av spørsmål</b></span> <br /> <br />
+			<form action="QuestionEdit.php" method="post">
+				<?php echo str_repeat('&nbsp', 3); ?>
+				<input type="submit" value="Lag/Rediger spørsmål">
+			</form>
+
+		</div>
+	</div>
+
+
+	<footer class="footer">
+		<p>Copyright &copy; SysUtv16-Gr3 - 2016</p>
+	</footer>
+</body>
+</html>
